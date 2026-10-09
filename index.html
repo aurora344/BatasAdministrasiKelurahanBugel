@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="id">
+<html lang="en">
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,157 +8,18 @@
         <meta name="apple-mobile-web-app-capable" content="yes">
         <link rel="stylesheet" href="css/leaflet.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
         <style>
-        :root {
-            --ink: #1E2A23;
-            --muted: #5B6A61;
-            --rule: #D5DDD7;
-            --paper: #FFFFFF;
-            --tint: #F3F6F4;
-            --font: 'Plus Jakarta Sans', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
         html, body, #map {
             width: 100%;
             height: 100%;
             padding: 0;
             margin: 0;
         }
-        body { font-family: var(--font); color: var(--ink); }
-        .leaflet-container { font-family: var(--font); }
-
-        /* ---------- Judul ---------- */
-        .map-title {
-            position: absolute;
-            top: 12px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            background: var(--paper);
-            border: 1px solid var(--ink);
-            box-shadow: 4px 4px 0 rgba(30,42,35,.85);
-            padding: 10px 18px 11px;
-            text-align: center;
-            max-width: calc(100% - 140px);
-            box-sizing: border-box;
-            pointer-events: none;
-        }
-        .map-title h1 {
-            margin: 0;
-            font-size: 19px;
-            line-height: 1.25;
-            font-weight: 700;
-            letter-spacing: -0.01em;
-        }
-        .map-title p {
-            margin: 3px 0 0;
-            font-size: 12.5px;
-            color: var(--muted);
-        }
-
-        /* ---------- Popup ---------- */
-        .pop-card .leaflet-popup-content-wrapper {
-            padding: 0;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 6px 22px rgba(0,0,0,.28);
-        }
-        .pop-card .leaflet-popup-content { margin: 0; min-width: 210px; }
-        .pop-card a.leaflet-popup-close-button { color: var(--muted); top: 10px; right: 6px; }
-        .pc-strip { height: 7px; }
-        .pc-body { padding: 11px 16px 13px; }
-        .pc-type { font-size: 12px; color: var(--muted); margin: 0; }
-        .pc-title {
-            font-size: 20px;
-            font-weight: 700;
-            margin: 1px 0 9px;
-            line-height: 1.2;
-            display: flex;
-            align-items: center;
-            gap: 9px;
-        }
-        .pc-dot { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,.35); flex: none; }
-        .pc-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-        .pc-table th, .pc-table td { padding: 5px 0; border-top: 1px solid var(--rule); text-align: left; vertical-align: top; }
-        .pc-table th { font-weight: 500; color: var(--muted); width: 45%; padding-right: 10px; }
-        .pc-table td { font-weight: 600; }
-
-        /* ---------- Legenda ---------- */
-        .legend {
-            background: var(--paper);
-            border: 1px solid var(--ink);
-            box-shadow: 4px 4px 0 rgba(30,42,35,.85);
-            width: 236px;
-            max-height: calc(100vh - 120px);
-            display: flex;
-            flex-direction: column;
-            font-size: 13px;
-        }
-        .legend-toggle {
-            all: unset;
-            box-sizing: border-box;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            padding: 9px 13px;
-            font-weight: 700;
-            font-size: 14px;
-            cursor: pointer;
-            border-bottom: 1px solid var(--ink);
-        }
-        .legend-toggle:focus-visible { outline: 2px solid #2F7DE1; outline-offset: -3px; }
-        .legend-toggle .chev { transition: transform .2s; font-size: 11px; }
-        .legend.collapsed .legend-toggle { border-bottom: 0; }
-        .legend.collapsed .legend-toggle .chev { transform: rotate(-90deg); }
-        .legend.collapsed .legend-body { display: none; }
-        .legend-body { overflow-y: auto; padding: 4px 0 8px; }
-        .lg-group { padding: 6px 13px 2px; }
-        .lg-group + .lg-group { border-top: 1px solid var(--rule); margin-top: 4px; }
-        .lg-head { font-size: 12px; font-weight: 600; color: var(--muted); margin: 2px 0 4px; }
-        .lg-item {
-            display: flex;
-            align-items: center;
-            gap: 9px;
-            padding: 3px 4px;
-            margin: 0 -4px;
-            border-radius: 4px;
-            cursor: pointer;
-            user-select: none;
-        }
-        .lg-item:hover { background: var(--tint); }
-        .lg-item input { margin: 0; accent-color: var(--ink); cursor: pointer; }
-        .lg-item.off .sw, .lg-item.off span.lbl { opacity: .35; }
-        .sw { width: 26px; height: 14px; flex: none; box-sizing: border-box; }
-        .sw-fill { border: 1px solid rgb(35,35,35); }
-        .sw-line { height: 6px; border-top: 1px solid #000; border-bottom: 1px solid #000; }
-        .sw-water { height: 6px; border-top: 1px solid rgb(0,255,255); border-bottom: 1px solid rgb(0,255,255); background: rgb(204,255,255); }
-        .sw-batas {
-            height: 4px;
-            background: repeating-linear-gradient(90deg, rgb(128,128,128) 0 10px, rgb(255,255,191) 10px 15px);
-            outline: 1px solid rgb(255,255,191);
-        }
-        .sw-sat { background: linear-gradient(135deg, #3f5a2c, #6f7f4a 45%, #9a8f6a 70%, #4c6a3a); border: 1px solid rgba(0,0,0,.4); }
-        .lg-note { font-size: 11.5px; color: var(--muted); padding: 8px 13px 0; line-height: 1.4; }
-
-        @media (max-width: 600px) {
-            .map-title { top: 10px; left: 56px; right: 10px; transform: none; max-width: none; padding: 8px 12px; text-align: left; }
-            .map-title h1 { font-size: 15px; }
-            .map-title p { font-size: 11.5px; }
-            .legend { width: 210px; max-height: calc(100vh - 150px); }
-        }
-        @media (prefers-reduced-motion: reduce) { .legend-toggle .chev { transition: none; } }
         </style>
-        <title>Peta Batas RW Kelurahan Bugel</title>
+        <title></title>
     </head>
     <body>
         <div id="map">
-        </div>
-        <div class="map-title">
-            <h1>Peta Batas RW Kelurahan Bugel</h1>
-            <p>Klik wilayah atau garis untuk melihat keterangannya</p>
         </div>
         <script src="js/qgis2web_expressions.js"></script>
         <script src="js/leaflet.js"></script>
@@ -195,102 +56,6 @@
             }
             map.setMaxBounds(map.getBounds());
         }
-
-        /* =====================================================
-           POPUP: fungsi bantu (luas, panjang, format angka)
-           ===================================================== */
-        var NAMA_KELURAHAN = 'Bugel';
-        var WARNA_RW = {
-            1: 'rgb(215,25,28)',
-            2: 'rgb(237,110,67)',
-            3: 'rgb(253,186,111)',
-            4: 'rgb(254,232,165)',
-            5: 'rgb(230,244,167)',
-            6: 'rgb(179,222,118)',
-            7: 'rgb(106,188,88)'
-        };
-        function rad(d) { return d * Math.PI / 180; }
-        // Luas geodesik (m²) dari ring koordinat WGS84 [lon, lat]
-        function ringArea(c) {
-            var a = 0, R = 6378137, n = c.length;
-            if (n < 3) return 0;
-            for (var i = 0; i < n; i++) {
-                var p1 = c[i], p2 = c[(i + 1) % n];
-                a += rad(p2[0] - p1[0]) * (2 + Math.sin(rad(p1[1])) + Math.sin(rad(p2[1])));
-            }
-            return Math.abs(a * R * R / 2);
-        }
-        function polyArea(rings) {
-            var a = ringArea(rings[0]);
-            for (var i = 1; i < rings.length; i++) a -= ringArea(rings[i]);
-            return a;
-        }
-        function luasGeometri(g) {
-            if (!g) return 0;
-            if (g.type === 'Polygon') return polyArea(g.coordinates);
-            if (g.type === 'MultiPolygon') return g.coordinates.reduce(function (s, p) { return s + polyArea(p); }, 0);
-            return 0;
-        }
-        // Panjang (m) garis WGS84 dengan rumus haversine
-        function panjangLine(c) {
-            var d = 0;
-            for (var i = 1; i < c.length; i++) {
-                var la1 = rad(c[i-1][1]), la2 = rad(c[i][1]);
-                var dla = la2 - la1, dlo = rad(c[i][0] - c[i-1][0]);
-                var h = Math.sin(dla/2) * Math.sin(dla/2) + Math.cos(la1) * Math.cos(la2) * Math.sin(dlo/2) * Math.sin(dlo/2);
-                d += 2 * 6371008.8 * Math.asin(Math.sqrt(h));
-            }
-            return d;
-        }
-        function panjangGeometri(g) {
-            if (!g) return 0;
-            if (g.type === 'LineString') return panjangLine(g.coordinates);
-            if (g.type === 'MultiLineString') return g.coordinates.reduce(function (s, l) { return s + panjangLine(l); }, 0);
-            if (g.type === 'Polygon') return panjangLine(g.coordinates[0]);
-            if (g.type === 'MultiPolygon') return g.coordinates.reduce(function (s, p) { return s + panjangLine(p[0]); }, 0);
-            return 0;
-        }
-        function fmt(n, d) { return n.toLocaleString('id-ID', {minimumFractionDigits: d, maximumFractionDigits: d}); }
-        function fmtPanjang(m) { return m >= 1000 ? fmt(m / 1000, 2) + ' km' : fmt(m, 0) + ' m'; }
-        function nomorRW(v) {
-            var m = String(v == null ? '' : v).match(/\d+/);
-            return m ? parseInt(m[0], 10) : null;
-        }
-        function kartu(warna, jenis, judul, baris) {
-            var rows = baris.map(function (b) { return '<tr><th>' + b[0] + '</th><td>' + b[1] + '</td></tr>'; }).join('');
-            return '<div class="pc-strip" style="background:' + warna + '"></div>' +
-                   '<div class="pc-body">' +
-                   '<p class="pc-type">' + jenis + '</p>' +
-                   '<div class="pc-title"><span class="pc-dot" style="background:' + warna + '"></span>' + judul + '</div>' +
-                   '<table class="pc-table">' + rows + '</table></div>';
-        }
-        var POPUP_OPT = {maxHeight: 400, className: 'pop-card'};
-
-        // Popup untuk semua layer batas RW
-        function popupRW(feature, layer) {
-            var no = nomorRW(feature.properties['RW_1']);
-            var warna = WARNA_RW[no] || '#888';
-            var judul = no ? 'RW ' + (no < 10 ? '0' + no : no) : (feature.properties['RW_1'] || 'RW');
-            var ha = luasGeometri(feature.geometry) / 10000;
-            var baris = [
-                ['Kelurahan', NAMA_KELURAHAN],
-                ['Luas wilayah', '± ' + fmt(ha, 2) + ' ha'],
-                ['Keliling batas', '± ' + fmtPanjang(panjangGeometri(feature.geometry))]
-            ];
-            layer.bindPopup(kartu(warna, 'Rukun Warga', judul, baris), POPUP_OPT);
-        }
-        // Popup untuk layer garis (jalan, sungai)
-        function popupGaris(jenis, judul, warna) {
-            return function (feature, layer) {
-                var baris = [
-                    ['Kategori', jenis],
-                    ['Panjang segmen', '± ' + fmtPanjang(panjangGeometri(feature.geometry))],
-                    ['Lokasi', 'Kel. ' + NAMA_KELURAHAN]
-                ];
-                layer.bindPopup(kartu(warna, jenis, judul, baris), POPUP_OPT);
-            };
-        }
-
         map.createPane('pane_GoogleSatellite_0');
         map.getPane('pane_GoogleSatellite_0').style.zIndex = 400;
         var layer_GoogleSatellite_0 = L.tileLayer('https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
@@ -304,7 +69,14 @@
         });
         layer_GoogleSatellite_0;
         map.addLayer(layer_GoogleSatellite_0);
-        var pop_BatasAdministrasiRW7_1 = popupRW;
+        function pop_BatasAdministrasiRW7_1(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RW_1'] !== null ? autolinker.link(feature.properties['RW_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BatasAdministrasiRW7_1_0() {
             return {
@@ -335,7 +107,14 @@
         });
         bounds_group.addLayer(layer_BatasAdministrasiRW7_1);
         map.addLayer(layer_BatasAdministrasiRW7_1);
-        var pop_BatasAdministrasiRW6_2 = popupRW;
+        function pop_BatasAdministrasiRW6_2(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RW_1'] !== null ? autolinker.link(feature.properties['RW_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BatasAdministrasiRW6_2_0() {
             return {
@@ -366,7 +145,14 @@
         });
         bounds_group.addLayer(layer_BatasAdministrasiRW6_2);
         map.addLayer(layer_BatasAdministrasiRW6_2);
-        var pop_BatasAdministrasiRW5_3 = popupRW;
+        function pop_BatasAdministrasiRW5_3(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RW_1'] !== null ? autolinker.link(feature.properties['RW_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BatasAdministrasiRW5_3_0() {
             return {
@@ -397,7 +183,14 @@
         });
         bounds_group.addLayer(layer_BatasAdministrasiRW5_3);
         map.addLayer(layer_BatasAdministrasiRW5_3);
-        var pop_BatasAdministrasiRW4_4 = popupRW;
+        function pop_BatasAdministrasiRW4_4(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RW_1'] !== null ? autolinker.link(feature.properties['RW_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BatasAdministrasiRW4_4_0() {
             return {
@@ -428,7 +221,14 @@
         });
         bounds_group.addLayer(layer_BatasAdministrasiRW4_4);
         map.addLayer(layer_BatasAdministrasiRW4_4);
-        var pop_BatasAdministrasiRW3_5 = popupRW;
+        function pop_BatasAdministrasiRW3_5(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RW_1'] !== null ? autolinker.link(feature.properties['RW_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BatasAdministrasiRW3_5_0() {
             return {
@@ -459,7 +259,14 @@
         });
         bounds_group.addLayer(layer_BatasAdministrasiRW3_5);
         map.addLayer(layer_BatasAdministrasiRW3_5);
-        var pop_BatasAdministrasiRW2_6 = popupRW;
+        function pop_BatasAdministrasiRW2_6(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RW_1'] !== null ? autolinker.link(feature.properties['RW_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BatasAdministrasiRW2_6_0() {
             return {
@@ -490,7 +297,14 @@
         });
         bounds_group.addLayer(layer_BatasAdministrasiRW2_6);
         map.addLayer(layer_BatasAdministrasiRW2_6);
-        var pop_BatasAdministrasiRW1_7 = popupRW;
+        function pop_BatasAdministrasiRW1_7(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RW_1'] !== null ? autolinker.link(feature.properties['RW_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BatasAdministrasiRW1_7_0() {
             return {
@@ -521,7 +335,14 @@
         });
         bounds_group.addLayer(layer_BatasAdministrasiRW1_7);
         map.addLayer(layer_BatasAdministrasiRW1_7);
-        var pop_BadanAir_8 = popupGaris('Badan Air', 'Sungai / Saluran Air', 'rgb(0,200,220)');
+        function pop_BadanAir_8(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BadanAir_8_0() {
             return {
@@ -563,7 +384,14 @@
         });
         bounds_group.addLayer(layer_BadanAir_8);
         map.addLayer(layer_BadanAir_8);
-        var pop_JalanTol_9 = popupGaris('Jalan Tol', 'Jalan Tol', 'rgb(240,210,40)');
+        function pop_JalanTol_9(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_JalanTol_9_0() {
             return {
@@ -605,7 +433,14 @@
         });
         bounds_group.addLayer(layer_JalanTol_9);
         map.addLayer(layer_JalanTol_9);
-        var pop_JalanLokal_10 = popupGaris('Jalan Lokal', 'Jalan Lokal', 'rgb(255,135,102)');
+        function pop_JalanLokal_10(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['id'] !== null ? autolinker.link(feature.properties['id'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_JalanLokal_10_0() {
             return {
@@ -647,7 +482,14 @@
         });
         bounds_group.addLayer(layer_JalanLokal_10);
         map.addLayer(layer_JalanLokal_10);
-        var pop_BatasAdministrasiRW_11 = popupRW;
+        function pop_BatasAdministrasiRW_11(feature, layer) {
+            var popupContent = '<table>\
+                    <tr>\
+                        <td colspan="2">' + (feature.properties['RW_1'] !== null ? autolinker.link(feature.properties['RW_1'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                </table>';
+            layer.bindPopup(popupContent, {maxHeight: 400});
+        }
 
         function style_BatasAdministrasiRW_11_0() {
             return {
@@ -689,73 +531,8 @@
         });
         bounds_group.addLayer(layer_BatasAdministrasiRW_11);
         map.addLayer(layer_BatasAdministrasiRW_11);
-
-        /* =====================================================
-           LEGENDA (menggantikan L.control.layers bawaan)
-           Centang = tampilkan/sembunyikan layer
-           ===================================================== */
-        var grupLegenda = [
-            { judul: 'Rukun Warga', item: [
-                { label: 'RW 01', layer: layer_BatasAdministrasiRW1_7, sw: 'sw-fill', bg: WARNA_RW[1] },
-                { label: 'RW 02', layer: layer_BatasAdministrasiRW2_6, sw: 'sw-fill', bg: WARNA_RW[2] },
-                { label: 'RW 03', layer: layer_BatasAdministrasiRW3_5, sw: 'sw-fill', bg: WARNA_RW[3] },
-                { label: 'RW 04', layer: layer_BatasAdministrasiRW4_4, sw: 'sw-fill', bg: WARNA_RW[4] },
-                { label: 'RW 05', layer: layer_BatasAdministrasiRW5_3, sw: 'sw-fill', bg: WARNA_RW[5] },
-                { label: 'RW 06', layer: layer_BatasAdministrasiRW6_2, sw: 'sw-fill', bg: WARNA_RW[6] },
-                { label: 'RW 07', layer: layer_BatasAdministrasiRW7_1, sw: 'sw-fill', bg: WARNA_RW[7] }
-            ]},
-            { judul: 'Batas wilayah', item: [
-                { label: 'Batas RW', layer: layer_BatasAdministrasiRW_11, sw: 'sw-batas' }
-            ]},
-            { judul: 'Jaringan jalan dan perairan', item: [
-                { label: 'Jalan tol', layer: layer_JalanTol_9, sw: 'sw-line', bg: 'rgb(255,255,102)' },
-                { label: 'Jalan lokal', layer: layer_JalanLokal_10, sw: 'sw-line', bg: 'rgb(255,135,102)' },
-                { label: 'Sungai / saluran air', layer: layer_BadanAir_8, sw: 'sw-water' }
-            ]},
-            { judul: 'Peta dasar', item: [
-                { label: 'Citra satelit Google', layer: layer_GoogleSatellite_0, sw: 'sw-sat' }
-            ]}
-        ];
-
-        var Legenda = L.Control.extend({
-            options: { position: 'bottomright' },
-            onAdd: function () {
-                var box = L.DomUtil.create('div', 'legend');
-                if (window.innerWidth <= 600) box.classList.add('collapsed');
-                var btn = L.DomUtil.create('button', 'legend-toggle', box);
-                btn.type = 'button';
-                btn.innerHTML = '<span>Legenda</span><span class="chev" aria-hidden="true">&#9660;</span>';
-                btn.setAttribute('aria-expanded', !box.classList.contains('collapsed'));
-                btn.onclick = function () {
-                    box.classList.toggle('collapsed');
-                    btn.setAttribute('aria-expanded', !box.classList.contains('collapsed'));
-                };
-                var body = L.DomUtil.create('div', 'legend-body', box);
-                grupLegenda.forEach(function (g) {
-                    var grp = L.DomUtil.create('div', 'lg-group', body);
-                    L.DomUtil.create('div', 'lg-head', grp).textContent = g.judul;
-                    g.item.forEach(function (it) {
-                        var row = L.DomUtil.create('label', 'lg-item', grp);
-                        var cb = L.DomUtil.create('input', '', row);
-                        cb.type = 'checkbox';
-                        cb.checked = map.hasLayer(it.layer);
-                        var sw = L.DomUtil.create('span', 'sw ' + it.sw, row);
-                        if (it.bg) sw.style.background = it.bg;
-                        var lbl = L.DomUtil.create('span', 'lbl', row);
-                        lbl.textContent = it.label;
-                        cb.onchange = function () {
-                            if (cb.checked) { map.addLayer(it.layer); } else { map.removeLayer(it.layer); }
-                            row.classList.toggle('off', !cb.checked);
-                        };
-                    });
-                });
-                L.DomUtil.create('div', 'lg-note', body).textContent = 'Hapus centang untuk menyembunyikan layer. Luas dan panjang dihitung otomatis dari geometri (perkiraan).';
-                L.DomEvent.disableClickPropagation(box);
-                L.DomEvent.disableScrollPropagation(box);
-                return box;
-            }
-        });
-        new Legenda().addTo(map);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/BatasAdministrasiRW_11.png" /> Batas Administrasi RW': layer_BatasAdministrasiRW_11,'<img src="legend/JalanLokal_10.png" /> Jalan Lokal': layer_JalanLokal_10,'<img src="legend/JalanTol_9.png" /> Jalan Tol': layer_JalanTol_9,'<img src="legend/BadanAir_8.png" /> Badan Air': layer_BadanAir_8,'<img src="legend/BatasAdministrasiRW1_7.png" /> Batas Administrasi RW 1': layer_BatasAdministrasiRW1_7,'<img src="legend/BatasAdministrasiRW2_6.png" /> Batas Administrasi RW 2': layer_BatasAdministrasiRW2_6,'<img src="legend/BatasAdministrasiRW3_5.png" /> Batas Administrasi RW 3': layer_BatasAdministrasiRW3_5,'<img src="legend/BatasAdministrasiRW4_4.png" /> Batas Administrasi RW 4': layer_BatasAdministrasiRW4_4,'<img src="legend/BatasAdministrasiRW5_3.png" /> Batas Administrasi RW 5': layer_BatasAdministrasiRW5_3,'<img src="legend/BatasAdministrasiRW6_2.png" /> Batas Administrasi RW 6': layer_BatasAdministrasiRW6_2,'<img src="legend/BatasAdministrasiRW7_1.png" /> Batas Administrasi RW 7': layer_BatasAdministrasiRW7_1,"Google Satellite": layer_GoogleSatellite_0,}).addTo(map);
         setBounds();
         </script>
     </body>
